@@ -15,7 +15,15 @@ toast 原生弹窗
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '15.6'
+
+  # 接入iOS库 SVProgressHUD
+  s.dependency 'SVProgressHUD'
+
+  # 添加资源 assets.bundle
+  s.resource_bundles = {
+    'toastkit' => ['Resources/*']
+  }
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
