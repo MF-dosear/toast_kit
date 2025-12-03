@@ -18,51 +18,64 @@
     [SVProgressHUD dismiss];
 }
 
-+ (void)showInfoWithText:(NSString*)text{
-    [QSToast showInfoWithText:text completion:^{
++ (void)dismiss:(SVProgressHUDDismissCompletion)completion{
+    [SVProgressHUD dismissWithCompletion:completion];
+}
+
++ (void)showProgres:(float)value{
+    [SVProgressHUD showProgress:value];
+}
+
++ (void)showProgres:(float)value text:(NSString *)text{
+    [SVProgressHUD showProgress:value status:text];
+}
+
++ (void)showInfoWithText:(NSString *)text{
+    [QSToast showText:text completion:^{
         
     }];
 }
 
-+ (void)showWarnWithText:(NSString*)text{
++ (void)showWarnWithText:(NSString *)text{
     [QSToast showWarnWithText:text completion:^{
         
     }];
 }
 
-+ (void)showSuccessWithText:(NSString*)text{
++ (void)showSuccessWithText:(NSString *)text{
     [QSToast showSuccessWithText:text completion:^{
         
     }];
 }
 
-+ (void)showErrorWithText:(NSString*)text{
++ (void)showErrorWithText:(NSString *)text{
     [QSToast showErrorWithText:text completion:^{
         
     }];
 }
 
-+ (void)showInfoWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion{
++ (void)showText:(NSString *)text completion:(SVProgressHUDDismissCompletion)completion{
     
-    [SVProgressHUD showInfoWithStatus:text];
+    UIImage *image;
+    [SVProgressHUD showImage:image status:text];
     [QSToast dismissDelayWithCompletion:completion];
 }
 
-+ (void)showWarnWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion{
++ (void)showWarnWithText:(NSString *)text completion:(SVProgressHUDDismissCompletion)completion{
 
     UIImage *image = [UIImage imageBundleNamed:@"icon_toast_info"];
     [SVProgressHUD showImage:image status:text];
     [QSToast dismissDelayWithCompletion:completion];
 }
 
-+ (void)showSuccessWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion{
++ (void)showSuccessWithText:(NSString *)text completion:(SVProgressHUDDismissCompletion)completion{
     
     UIImage *image = [UIImage imageBundleNamed:@"icon_toast_success"];
     [SVProgressHUD showImage:image status:text];
     [QSToast dismissDelayWithCompletion:completion];
 }
 
-+ (void)showErrorWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion{
++ (void)showErrorWithText:(NSString *)text completion:(SVProgressHUDDismissCompletion)completion{
     
     UIImage *image = [UIImage imageBundleNamed:@"icon_toast_fail"];
     [SVProgressHUD showImage:image status:text];

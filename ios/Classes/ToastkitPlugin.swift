@@ -20,9 +20,16 @@ public class ToastkitPlugin: NSObject, FlutterPlugin {
         case "show":
             QSToast.show()
         case "dismiss":
-            QSToast.dismiss()
-        case "showInfoWithText":
-            QSToast.showInfo(withText: call.arguments as? String ?? "") {
+            QSToast.dismiss {
+                result(true)
+            }
+        case "showProgres":
+            QSToast.showProgres(call.arguments as? Float ?? 0)
+        case "showProgresWithText":
+        guard let dict = call.arguments as? Dictionary<String, Any?> else { return }
+            QSToast.showProgres(dict["value"] as? Float ?? 0, text: dict["text"] as? String ?? "")
+        case "showText":
+            QSToast.showText(call.arguments as? String ?? "") {
                 result(true)
             }
         case "showSuccessWithText":

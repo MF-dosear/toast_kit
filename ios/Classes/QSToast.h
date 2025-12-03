@@ -17,6 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)dismiss;
 
++ (void)dismiss:(SVProgressHUDDismissCompletion)completion;
+
++ (void)showProgres:(float)value;
+
++ (void)showProgres:(float)value text:(NSString *)text;
+
 + (void)showInfoWithText:(NSString*)text;
 
 + (void)showWarnWithText:(NSString*)text;
@@ -25,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)showErrorWithText:(NSString*)text;
 
-+ (void)showInfoWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion;
++ (void)showText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion;
 
 + (void)showWarnWithText:(NSString*)text completion:(SVProgressHUDDismissCompletion)completion;
 

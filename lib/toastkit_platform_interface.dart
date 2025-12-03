@@ -83,12 +83,22 @@ abstract class ToastkitPlatform extends PlatformInterface {
   }
 
   // case "dismiss":
-  dismiss() {
+  Future dismiss() async{
     throw UnimplementedError('dismiss');
   }
 
+  // "showProgres":
+  showProgress({double value = 0.0}) {
+    throw UnimplementedError('showProgres');
+  }
+
+  // "showProgresWithText":
+  showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    throw UnimplementedError('showProgresWithText');
+  }
+
   // case "showInfoWithText"
-  Future showInfoWithText(String text) async {
+  Future showText(String text) async {
     throw UnimplementedError('showInfoWithText');
   }
 

@@ -22,8 +22,16 @@ class Toastkit {
     ToastkitPlatform.instance.dismiss();
   }
 
-  static Future showInfoWithText(String text) {
-    return ToastkitPlatform.instance.showInfoWithText(text);
+  static Future showProgress({double value = 0.0}) {
+    return ToastkitPlatform.instance.showProgress(value: value);
+  }
+
+  static Future showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    return ToastkitPlatform.instance.showProgressWithText(value: value, text: text);
+  }
+
+  static Future showText(String text) {
+    return ToastkitPlatform.instance.showText(text);
   }
 
   static Future showSuccessWithText(String text) {

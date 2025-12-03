@@ -32,14 +32,27 @@ class MethodChannelToastkit extends ToastkitPlatform {
 
   // case "dismiss":
   @override
-  dismiss() {
-    methodChannel.invokeMethod('dismiss');
+  Future dismiss() async{
+    await methodChannel.invokeMethod('dismiss');
   }
+
+  // showProgress
+  @override
+  showProgress({double value = 0.0}) {
+    methodChannel.invokeMethod('showProgres', value);
+  }
+
+  // case "dismissProgress":
+  @override
+  showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    methodChannel.invokeMethod('showProgresWithText', {'value': value, 'text': text});
+  }
+
 
   // case "showInfoWithText"
   @override
-  Future showInfoWithText(String text) async {
-    await methodChannel.invokeMethod('showInfoWithText', text);
+  Future showText(String text) async {
+    await methodChannel.invokeMethod('showText', text);
   }
 
   // case "showSuccessWithText":
