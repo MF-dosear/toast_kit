@@ -17,8 +17,8 @@ toast 原生弹窗
   s.dependency 'Flutter'
   s.platform = :ios, '15.6'
 
-  # 接入iOS库 SVProgressHUD
-  s.dependency 'SVProgressHUD'
+  # 接入iOS git库 SVProgressHUD 版本2.3.1
+  s.dependency 'SVProgressHUD', '2.3.1'
 
   # 添加资源 assets.bundle
   s.resource_bundles = {
