@@ -1,7 +1,6 @@
 import 'toastkit_platform_interface.dart';
 
 class Toastkit {
-  
   static setStyle({ToastMode mode = ToastMode.light}) {
     ToastkitPlatform.instance.setStyle(mode: mode);
   }
@@ -22,12 +21,13 @@ class Toastkit {
     ToastkitPlatform.instance.dismiss();
   }
 
-  static Future showProgress({double value = 0.0}) {
+  static showProgress({double value = 0.0}) {
     return ToastkitPlatform.instance.showProgress(value: value);
   }
 
-  static Future showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    return ToastkitPlatform.instance.showProgressWithText(value: value, text: text);
+  static showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    return ToastkitPlatform.instance
+        .showProgressWithText(value: value, text: text);
   }
 
   static Future showText(String text) {
