@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
               title: const Text('Dismiss'),
               onTap: () async{
                 await Toastkit.dismiss();
-                print("dismiss");
+                debugPrint("dismiss");
               },
             ),
             ListTile(
@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
               title: const Text('Show Text'),
               onTap: () async {
                 await Toastkit.showText("Show Text");
-                print("Info toast displayed");
+                debugPrint("Info toast displayed");
               },
             ),
             ListTile(
