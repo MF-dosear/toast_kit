@@ -76,15 +76,6 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 currentDialog = showProgressDialog(activity, null, indeterminate = false, progress = value)
                 result.success(true)
             }
-            "showProgressWithText" -> {
-                @Suppress("UNCHECKED_CAST")
-                val args = call.arguments as? Map<String, Any?>
-                val value = (args?.get("value") as? Number)?.toDouble() ?: 0.0
-                val text = args?.get("text") as? String ?: "unknown"
-                dismissCurrent()
-                currentDialog = showProgressDialog(activity, text, indeterminate = false, progress = value)
-                result.success(true)
-            }
             "showText" -> {
                 val text = call.arguments as? String ?: ""
                 showToast(activity, text)
@@ -112,15 +103,6 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 mainHandler.postDelayed({
                     activity.runOnUiThread { result.success(true) }
                 }, 1600)
-            }
-            "dismissDelayWithCompletion" -> {
-                val delayMs = (call.arguments as? Number)?.toInt() ?: 1600
-                mainHandler.postDelayed({
-                    activity.runOnUiThread {
-                        dismissCurrent()
-                        result.success(true)
-                    }
-                }, delayMs.toLong())
             }
             else -> result.notImplemented()
         }

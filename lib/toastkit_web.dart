@@ -31,9 +31,6 @@ class ToastkitWeb extends ToastkitPlatform {
   void showProgress({double value = 0.0}) {}
 
   @override
-  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {}
-
-  @override
   Future<void> showText(String text) async {}
 
   @override
@@ -44,7 +41,4 @@ class ToastkitWeb extends ToastkitPlatform {
 
   @override
   Future<void> showErrorWithText(String text) async {}
-
-  @override
-  Future<void> dismissDelayWithCompletion(int delay) async {}
 }

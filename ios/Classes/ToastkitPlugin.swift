@@ -46,15 +46,6 @@ public class ToastkitPlugin: NSObject, FlutterPlugin {
             } else {
                 result(FlutterError(code: "INVALID_ARGUMENT", message: "Expected a number for progress value", details: nil))
             }
-        case "showProgressWithText":
-            guard let dict = call.arguments as? Dictionary<String, Any?> else {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Expected a dictionary with 'value' and 'text' keys", details: nil))
-                return
-            }
-            let value = (dict["value"] as? Double ?? 0.0)
-            let text = dict["text"] as? String ?? ""
-            QSToast.showProgress(Float(value), status: text)
-            result(true)
         case "showText":
             let text = call.arguments as? String ?? ""
             QSToast.showText(text) {
@@ -73,13 +64,6 @@ public class ToastkitPlugin: NSObject, FlutterPlugin {
         case "showErrorWithText":
             let text = call.arguments as? String ?? ""
             QSToast.showError(withText: text) {
-                result(true)
-            }
-        case "dismissDelayWithCompletion":
-            // delay 参数应该是毫秒，需要转换为秒
-            let delayMs = call.arguments as? Int ?? 1600
-            let delay = Double(delayMs) / 1000.0
-            QSToast.dismiss(withDelay: delay) {
                 result(true)
             }
         default:

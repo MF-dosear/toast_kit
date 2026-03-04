@@ -26,10 +26,6 @@ class Toastkit {
     ToastkitPlatform.instance.showProgress(value: value);
   }
 
-  static void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    ToastkitPlatform.instance.showProgressWithText(value: value, text: text);
-  }
-
   static Future<void> showText(String text) {
     return ToastkitPlatform.instance.showText(text);
   }
@@ -44,9 +40,5 @@ class Toastkit {
 
   static Future<void> showErrorWithText(String text) {
     return ToastkitPlatform.instance.showErrorWithText(text);
-  }
-
-  static Future<void> dismissDelayWithCompletion(int delay) {
-    return ToastkitPlatform.instance.dismissDelayWithCompletion(delay);
   }
 }

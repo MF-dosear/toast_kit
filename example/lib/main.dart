@@ -68,12 +68,6 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             ListTile(
-              title: const Text('showProgressWithText'),
-              onTap: () {
-                Toastkit.showProgressWithText(value: 0.7, text: "Loading...");
-              },
-            ),
-            ListTile(
               title: const Text('Show Text'),
               onTap: () async {
                 await Toastkit.showText("Show Text");
@@ -96,12 +90,6 @@ class _MyAppState extends State<MyApp> {
               title: const Text('Show Error With Text'),
               onTap: () {
                 Toastkit.showErrorWithText("This is an error toast");
-              },
-            ),
-            ListTile(
-              title: const Text('Dismiss Delay With Completion (2 seconds)'),
-              onTap: () {
-                Toastkit.dismissDelayWithCompletion(2000);
               },
             ),
           ],

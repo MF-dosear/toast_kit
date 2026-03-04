@@ -87,10 +87,6 @@ abstract class ToastkitPlatform extends PlatformInterface {
     throw UnimplementedError('showProgress');
   }
 
-  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    throw UnimplementedError('showProgressWithText');
-  }
-
   // case "showText":
   Future<void> showText(String text) async {
     throw UnimplementedError('showText');
@@ -111,8 +107,4 @@ abstract class ToastkitPlatform extends PlatformInterface {
     throw UnimplementedError('showErrorWithText');
   }
 
-  // case "dismissDelayWithCompletion":
-  Future<void> dismissDelayWithCompletion(int delay) async {
-    throw UnimplementedError('dismissDelayWithCompletion');
-  }
 }

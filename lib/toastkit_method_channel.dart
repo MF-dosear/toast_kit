@@ -41,12 +41,6 @@ class MethodChannelToastkit extends ToastkitPlatform {
   }
 
   @override
-  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    methodChannel.invokeMethod('showProgressWithText', {'value': value, 'text': text});
-  }
-
-
-  @override
   Future<void> showText(String text) async {
     await methodChannel.invokeMethod('showText', text);
   }
@@ -64,10 +58,5 @@ class MethodChannelToastkit extends ToastkitPlatform {
   @override
   Future<void> showErrorWithText(String text) async {
     await methodChannel.invokeMethod('showErrorWithText', text);
-  }
-
-  @override
-  Future<void> dismissDelayWithCompletion(int delay) async {
-    await methodChannel.invokeMethod('dismissDelayWithCompletion', delay);
   }
 }
