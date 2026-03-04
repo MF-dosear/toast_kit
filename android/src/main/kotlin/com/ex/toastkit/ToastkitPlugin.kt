@@ -50,15 +50,11 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private fun handleOnUi(call: MethodCall, result: Result, activity: Activity) {
         when (call.method) {
-            "setDefaultStyle" -> {
-                defaultStyleIndex = (call.arguments as? Number)?.toInt() ?: 0
-                result.success(true)
-            }
-            "setDefaultMaskType" -> {
-                defaultMaskTypeIndex = (call.arguments as? Number)?.toInt() ?: 0
-                result.success(true)
-            }
-            "setDefaultAnimationType" -> {
+            "init" -> {
+                @Suppress("UNCHECKED_CAST")
+                val args = call.arguments as? Map<String, Any?>
+                defaultStyleIndex = (args?.get("style") as? Number)?.toInt() ?: 0
+                defaultMaskTypeIndex = (args?.get("maskType") as? Number)?.toInt() ?: 0
                 result.success(true)
             }
             "show" -> {

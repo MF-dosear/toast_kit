@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:toastkit/toastkit.dart';
-import 'package:toastkit/toastkit_platform_interface.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,17 +30,21 @@ class _MyAppState extends State<MyApp> {
             IconButton(
               icon: const Icon(Icons.android_rounded),
               onPressed: () {
-                Toastkit.setStyle(mode: ToastMode.dark);
-                Toastkit.setMaskMode(mode: ToastMaskMode.black);
-                Toastkit.setAnimationMode(mode: ToastAnimationMode.native);
+                Toastkit.init(
+                  mode: ToastMode.dark,
+                  maskMode: ToastMaskMode.black,
+                  animationMode: ToastAnimationMode.native,
+                );
               },
             ),
             IconButton(
               icon: const Icon(Icons.apple),
               onPressed: () {
-                Toastkit.setStyle(mode: ToastMode.light);
-                Toastkit.setMaskMode(mode: ToastMaskMode.clear);
-                Toastkit.setAnimationMode(mode: ToastAnimationMode.flat);
+                Toastkit.init(
+                  mode: ToastMode.light,
+                  maskMode: ToastMaskMode.gradient,
+                  animationMode: ToastAnimationMode.flat,
+                );
               },
             ),
           ],

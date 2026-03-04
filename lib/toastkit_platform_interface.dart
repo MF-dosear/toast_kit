@@ -3,42 +3,42 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'toastkit_method_channel.dart';
 
 enum ToastMode {
-  /// White HUD with black text. HUD background will be blurred.
+  /// 浅色：白底黑字，HUD 背景模糊。
   light,
 
-  /// Black HUD with white text. HUD background will be blurred.
+  /// 深色：黑底白字，HUD 背景模糊。
   dark,
 
-  /// Uses the fore- and background color properties.
+  /// 自定义前景色与背景色。
   custom,
 
-  /// Automatically switch between light or dark mode appearance.
+  /// 随系统自动切换浅色/深色。
   automatic,
 }
 
 enum ToastMaskMode {
-  /// Allow user interactions while HUD is displayed.
+  /// 不遮罩，HUD 显示时仍可操作背后界面。
   none,
 
-  /// Don't allow user interactions with background objects.
+  /// 不遮罩但禁止背后操作。
   clear,
 
-  /// Don't allow user interactions and dim the UI behind the HUD (as in iOS 7+).
+  /// 背后半透明黑色遮罩（类似 iOS 7+）。
   black,
 
-  /// Don't allow user interactions and dim the UI with an UIAlertView-like background gradient (as in iOS 6).
+  /// 背后渐变遮罩（类似 iOS 6 的 UIAlertView 风格）。
   gradient,
 
-  /// Don't allow user interactions and dim the UI behind the HUD with a custom color.
+  /// 背后使用自定义颜色的遮罩。
   custom,
 }
 
 enum ToastAnimationMode {
-  /// Custom flat animation (indefinite animated ring).
+  /// 自定义扁平动画（无限旋转圆环）。
   flat,
-  
-  /// iOS native UIActivityIndicatorView.
-  native
+
+  /// 使用系统原生 UIActivityIndicatorView。
+  native,
 }
 
 abstract class ToastkitPlatform extends PlatformInterface {
@@ -62,16 +62,13 @@ abstract class ToastkitPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  void setStyle({ToastMode mode = ToastMode.light}) {
-    throw UnimplementedError('setDefaultStyle');
-  }
-
-  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
-    throw UnimplementedError('setDefaultMaskType');
-  }
-
-  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
-    throw UnimplementedError('setDefaultAnimationType');
+  /// 初始化 HUD 样式（风格、遮罩、动画）。
+  void init({
+    ToastMode mode = ToastMode.light,
+    ToastMaskMode maskMode = ToastMaskMode.none,
+    ToastAnimationMode animationMode = ToastAnimationMode.flat,
+  }) {
+    throw UnimplementedError('init');
   }
 
   void show() {

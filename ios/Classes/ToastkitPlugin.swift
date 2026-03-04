@@ -11,27 +11,24 @@ public class ToastkitPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-        case "setDefaultStyle":
-            if let styleIndex = call.arguments as? Int, let style = SVProgressHUDStyle(rawValue: styleIndex) {
+        case "init":
+            guard let args = call.arguments as? [String: Any] else {
+                result(FlutterError(code: "INVALID_ARGUMENT", message: "Expected a map with style, maskType, animationType", details: nil))
+                return
+            }
+            let styleIndex = args["style"] as? Int ?? 0
+            let maskIndex = args["maskType"] as? Int ?? 0
+            let animIndex = args["animationType"] as? Int ?? 0
+            if let style = SVProgressHUDStyle(rawValue: styleIndex) {
                 QSToast.setDefaultStyle(style)
-                result(true)
-            } else {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid style index", details: nil))
             }
-        case "setDefaultMaskType":
-            if let maskIndex = call.arguments as? Int, let maskType = SVProgressHUDMaskType(rawValue: UInt(maskIndex)) {
+            if let maskType = SVProgressHUDMaskType(rawValue: UInt(maskIndex) + 1) {
                 QSToast.setDefaultMaskType(maskType)
-                result(true)
-            } else {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid mask type index", details: nil))
             }
-        case "setDefaultAnimationType":
-            if let animIndex = call.arguments as? Int, let animType = SVProgressHUDAnimationType(rawValue: UInt(animIndex)) {
+            if let animType = SVProgressHUDAnimationType(rawValue: UInt(animIndex)) {
                 QSToast.setDefaultAnimationType(animType)
-                result(true)
-            } else {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid animation type index", details: nil))
             }
+            result(true)
         case "show":
             QSToast.show()
             result(true)

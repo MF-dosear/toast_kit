@@ -10,18 +10,16 @@ class MethodChannelToastkit extends ToastkitPlatform {
   final methodChannel = const MethodChannel('toastkit');
 
   @override
-  void setStyle({ToastMode mode = ToastMode.light}) {
-    methodChannel.invokeMethod('setDefaultStyle', mode.index);
-  }
-
-  @override
-  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
-    methodChannel.invokeMethod('setDefaultMaskType', mode.index);
-  }
-
-  @override
-  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
-    methodChannel.invokeMethod('setDefaultAnimationType', mode.index);
+  void init({
+    ToastMode mode = ToastMode.light,
+    ToastMaskMode maskMode = ToastMaskMode.none,
+    ToastAnimationMode animationMode = ToastAnimationMode.flat,
+  }) {
+    methodChannel.invokeMethod('init', {
+      'style': mode.index,
+      'maskType': maskMode.index,
+      'animationType': animationMode.index,
+    });
   }
 
   @override

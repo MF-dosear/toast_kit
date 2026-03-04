@@ -13,13 +13,11 @@ class ToastkitWeb extends ToastkitPlatform {
   }
 
   @override
-  void setStyle({ToastMode mode = ToastMode.light}) {}
-
-  @override
-  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {}
-
-  @override
-  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {}
+  void init({
+    ToastMode mode = ToastMode.light,
+    ToastMaskMode maskMode = ToastMaskMode.none,
+    ToastAnimationMode animationMode = ToastAnimationMode.flat,
+  }) {}
 
   @override
   void show() {}
