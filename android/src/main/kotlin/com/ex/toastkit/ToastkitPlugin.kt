@@ -1,14 +1,8 @@
 package com.ex.toastkit
 
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.view.WindowManager
-import android.widget.ProgressBar
-import android.widget.TextView
 import es.dmoral.toasty.Toasty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -19,14 +13,12 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /**
- * Android 实现：show/showProgress 使用系统 Dialog + ProgressBar；
- * showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty 插件。
+ * Android 实现：showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty。
  */
 class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private lateinit var channel: MethodChannel
     private var activity: Activity? = null
-    private var currentDialog: Dialog? = null
     private val mainHandler = Handler(Looper.getMainLooper())
 
     private var defaultStyleIndex: Int = 0
@@ -55,21 +47,6 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val args = call.arguments as? Map<String, Any?>
                 defaultStyleIndex = (args?.get("style") as? Number)?.toInt() ?: 0
                 defaultMaskTypeIndex = (args?.get("maskType") as? Number)?.toInt() ?: 0
-                result.success(true)
-            }
-            "show" -> {
-                dismissCurrent()
-                currentDialog = showProgressDialog(activity, null, indeterminate = true)
-                result.success(true)
-            }
-            "dismiss" -> {
-                dismissCurrent()
-                result.success(true)
-            }
-            "showProgress" -> {
-                val value = (call.arguments as? Number)?.toDouble() ?: 0.0
-                dismissCurrent()
-                currentDialog = showProgressDialog(activity, null, indeterminate = false, progress = value)
                 result.success(true)
             }
             "showText" -> {
@@ -104,54 +81,9 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
     }
 
-    private fun showProgressDialog(
-        context: Context,
-        message: String?,
-        indeterminate: Boolean,
-        progress: Double = 0.0
-    ): Dialog {
-        val dialog = Dialog(context, android.R.style.Theme_DeviceDefault_Dialog)
-        val layout = android.widget.LinearLayout(context).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            setPadding(80, 60, 80, 60)
-            setBackgroundColor(Color.parseColor("#F5F5F5"))
-        }
-        if (!message.isNullOrEmpty()) {
-            layout.addView(TextView(context).apply {
-                text = message
-                setPadding(0, 0, 0, 24)
-            })
-        }
-        val progressBar = if (indeterminate) {
-            ProgressBar(context, null, android.R.attr.progressBarStyle)
-        } else {
-            ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
-                max = 100
-                this.progress = (progress * 100).toInt().coerceIn(0, 100)
-            }
-        }
-        layout.addView(progressBar)
-        dialog.setContentView(layout)
-        dialog.setCancelable(defaultMaskTypeIndex == 0)
-        if (defaultMaskTypeIndex != 0) {
-            dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            dialog.window?.attributes?.dimAmount = 0.5f
-        }
-        dialog.show()
-        return dialog
-    }
-
-    private fun dismissCurrent() {
-        try {
-            currentDialog?.dismiss()
-        } catch (_: Exception) { }
-        currentDialog = null
-    }
-
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
         mainHandler.removeCallbacksAndMessages(null)
-        dismissCurrent()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
@@ -168,7 +100,6 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromActivity() {
         activity = null
-        dismissCurrent()
         mainHandler.removeCallbacksAndMessages(null)
     }
 }
