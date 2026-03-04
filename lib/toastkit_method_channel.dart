@@ -10,72 +10,64 @@ class MethodChannelToastkit extends ToastkitPlatform {
   final methodChannel = const MethodChannel('toastkit');
 
   @override
-  setStyle({ToastMode mode = ToastMode.light}) {
+  void setStyle({ToastMode mode = ToastMode.light}) {
     methodChannel.invokeMethod('setDefaultStyle', mode.index);
   }
 
   @override
-  setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
+  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
     methodChannel.invokeMethod('setDefaultMaskType', mode.index);
   }
 
   @override
-  setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
+  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
     methodChannel.invokeMethod('setDefaultAnimationType', mode.index);
   }
 
-  // case "show":
   @override
-  show() {
+  void show() {
     methodChannel.invokeMethod('show');
   }
 
   // case "dismiss":
   @override
-  Future dismiss() async{
+  Future<void> dismiss() async {
     await methodChannel.invokeMethod('dismiss');
   }
 
-  // showProgress
   @override
-  showProgress({double value = 0.0}) {
-    methodChannel.invokeMethod('showProgres', value);
+  void showProgress({double value = 0.0}) {
+    methodChannel.invokeMethod('showProgress', value);
   }
 
-  // case "dismissProgress":
   @override
-  showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    methodChannel.invokeMethod('showProgresWithText', {'value': value, 'text': text});
+  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    methodChannel.invokeMethod('showProgressWithText', {'value': value, 'text': text});
   }
 
 
-  // case "showInfoWithText"
   @override
-  Future showText(String text) async {
+  Future<void> showText(String text) async {
     await methodChannel.invokeMethod('showText', text);
   }
 
-  // case "showSuccessWithText":
   @override
-  Future showSuccessWithText(String text) async {
+  Future<void> showSuccessWithText(String text) async {
     await methodChannel.invokeMethod('showSuccessWithText', text);
   }
 
-  // case "showWarnWithText":
   @override
-  Future showWarnWithText(String text) async {
+  Future<void> showWarnWithText(String text) async {
     await methodChannel.invokeMethod('showWarnWithText', text);
   }
 
-  // case "showErrorWithText":
   @override
-  Future showErrorWithText(String text) async {
+  Future<void> showErrorWithText(String text) async {
     await methodChannel.invokeMethod('showErrorWithText', text);
   }
 
-  // case "dismissDelayWithCompletion":
   @override
-  Future dismissDelayWithCompletion(int delay) async {
+  Future<void> dismissDelayWithCompletion(int delay) async {
     await methodChannel.invokeMethod('dismissDelayWithCompletion', delay);
   }
 }

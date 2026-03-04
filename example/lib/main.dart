@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
               icon: const Icon(Icons.android_rounded),
               onPressed: () {
                 Toastkit.setStyle(mode: ToastMode.dark);
-                Toastkit.setMaskMode(mode: ToastMaskMode.clear);
+                Toastkit.setMaskMode(mode: ToastMaskMode.black);
                 Toastkit.setAnimationMode(mode: ToastAnimationMode.native);
               },
             ),
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
               icon: const Icon(Icons.apple),
               onPressed: () {
                 Toastkit.setStyle(mode: ToastMode.light);
-                Toastkit.setMaskMode(mode: ToastMaskMode.black);
+                Toastkit.setMaskMode(mode: ToastMaskMode.clear);
                 Toastkit.setAnimationMode(mode: ToastAnimationMode.flat);
               },
             ),

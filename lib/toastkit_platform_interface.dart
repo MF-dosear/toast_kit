@@ -62,63 +62,57 @@ abstract class ToastkitPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  // case "setDefaultStyle":
-  setStyle({ToastMode mode = ToastMode.light}) {
+  void setStyle({ToastMode mode = ToastMode.light}) {
     throw UnimplementedError('setDefaultStyle');
   }
 
-  // case "setDefaultMaskType":
-  setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
+  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {
     throw UnimplementedError('setDefaultMaskType');
   }
 
-  // case "setDefaultAnimationType":
-  setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
+  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {
     throw UnimplementedError('setDefaultAnimationType');
   }
 
-  // case "show":
-  show() {
+  void show() {
     throw UnimplementedError('show');
   }
 
   // case "dismiss":
-  Future dismiss() async{
+  Future<void> dismiss() async {
     throw UnimplementedError('dismiss');
   }
 
-  // "showProgres":
-  showProgress({double value = 0.0}) {
-    throw UnimplementedError('showProgres');
+  void showProgress({double value = 0.0}) {
+    throw UnimplementedError('showProgress');
   }
 
-  // "showProgresWithText":
-  showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
-    throw UnimplementedError('showProgresWithText');
+  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {
+    throw UnimplementedError('showProgressWithText');
   }
 
-  // case "showInfoWithText"
-  Future showText(String text) async {
-    throw UnimplementedError('showInfoWithText');
+  // case "showText":
+  Future<void> showText(String text) async {
+    throw UnimplementedError('showText');
   }
 
   // case "showSuccessWithText":
-  Future showSuccessWithText(String text) async {
+  Future<void> showSuccessWithText(String text) async {
     throw UnimplementedError('showSuccessWithText');
   }
 
   // case "showWarnWithText":
-  Future showWarnWithText(String text) async {
+  Future<void> showWarnWithText(String text) async {
     throw UnimplementedError('showWarnWithText');
   }
 
   // case "showErrorWithText":
-  Future showErrorWithText(String text) async {
+  Future<void> showErrorWithText(String text) async {
     throw UnimplementedError('showErrorWithText');
   }
 
   // case "dismissDelayWithCompletion":
-  Future dismissDelayWithCompletion(int delay) async {
+  Future<void> dismissDelayWithCompletion(int delay) async {
     throw UnimplementedError('dismissDelayWithCompletion');
   }
 }

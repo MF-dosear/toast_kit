@@ -1,26 +1,50 @@
-// In order to *not* need this ignore, consider extracting the "web" version
-// of your plugin as a separate package, instead of inlining it in the same
-// package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:web/web.dart' as web;
 
 import 'toastkit_platform_interface.dart';
 
-/// A web implementation of the ToastkitPlatform of the Toastkit plugin.
+/// Web 实现：无原生 HUD，采用 no-op，避免在 Web 上调用时崩溃。
 class ToastkitWeb extends ToastkitPlatform {
-  /// Constructs a ToastkitWeb
   ToastkitWeb();
 
   static void registerWith(Registrar registrar) {
     ToastkitPlatform.instance = ToastkitWeb();
   }
 
-  /// Returns a [String] containing the version of the platform.
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = web.window.navigator.userAgent;
-    return version;
-  }
+  void setStyle({ToastMode mode = ToastMode.light}) {}
+
+  @override
+  void setMaskMode({ToastMaskMode mode = ToastMaskMode.none}) {}
+
+  @override
+  void setAnimationMode({ToastAnimationMode mode = ToastAnimationMode.flat}) {}
+
+  @override
+  void show() {}
+
+  @override
+  Future<void> dismiss() async {}
+
+  @override
+  void showProgress({double value = 0.0}) {}
+
+  @override
+  void showProgressWithText({double value = 0.0, String? text = 'unknown'}) {}
+
+  @override
+  Future<void> showText(String text) async {}
+
+  @override
+  Future<void> showSuccessWithText(String text) async {}
+
+  @override
+  Future<void> showWarnWithText(String text) async {}
+
+  @override
+  Future<void> showErrorWithText(String text) async {}
+
+  @override
+  Future<void> dismissDelayWithCompletion(int delay) async {}
 }
