@@ -6,11 +6,10 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.view.Gravity
 import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
+import es.dmoral.toasty.Toasty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -20,7 +19,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /**
- * Android 实现：使用系统 Dialog + ProgressBar + Toast，无第三方依赖，与 iOS 行为一致。
+ * Android 实现：show/showProgress 使用系统 Dialog + ProgressBar；
+ * showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty 插件。
  */
 class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
@@ -74,28 +74,28 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
             "showText" -> {
                 val text = call.arguments as? String ?: ""
-                showToast(activity, text)
+                Toasty.info(activity, text, Toasty.LENGTH_SHORT, true).show()
                 mainHandler.postDelayed({
                     activity.runOnUiThread { result.success(true) }
                 }, 1600)
             }
             "showSuccessWithText" -> {
                 val text = call.arguments as? String ?: ""
-                showToast(activity, "✓ $text")
+                Toasty.success(activity, text, Toasty.LENGTH_SHORT, true).show()
                 mainHandler.postDelayed({
                     activity.runOnUiThread { result.success(true) }
                 }, 1600)
             }
             "showWarnWithText" -> {
                 val text = call.arguments as? String ?: ""
-                showToast(activity, "⚠ $text")
+                Toasty.warning(activity, text, Toasty.LENGTH_SHORT, true).show()
                 mainHandler.postDelayed({
                     activity.runOnUiThread { result.success(true) }
                 }, 1600)
             }
             "showErrorWithText" -> {
                 val text = call.arguments as? String ?: ""
-                showToast(activity, "✗ $text")
+                Toasty.error(activity, text, Toasty.LENGTH_SHORT, true).show()
                 mainHandler.postDelayed({
                     activity.runOnUiThread { result.success(true) }
                 }, 1600)
@@ -139,12 +139,6 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
         dialog.show()
         return dialog
-    }
-
-    private fun showToast(context: Context, message: String) {
-        val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.show()
     }
 
     private fun dismissCurrent() {
