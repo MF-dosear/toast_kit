@@ -55,6 +55,10 @@ class _MyAppState extends State<MyApp> {
               title: const Text('Show'),
               onTap: () {
                 Toastkit.show();
+                // 延时2s消失
+                Future.delayed(const Duration(seconds: 2), () {
+                  Toastkit.dismiss();
+                });
               },
             ),
             ListTile(
@@ -68,6 +72,10 @@ class _MyAppState extends State<MyApp> {
               title: const Text('showProgress'),
               onTap: () {
                 Toastkit.showProgress(value: 0.5);
+                // 延时2s消失
+                Future.delayed(const Duration(seconds: 2), () {
+                  Toastkit.dismiss();
+                });
               },
             ),
             ListTile(

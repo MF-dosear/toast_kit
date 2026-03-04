@@ -3,6 +3,11 @@ package com.ex.toastkit
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.ex.toastkit.R
+import com.github.ybq.android.spinkit.SpinKitView
 import es.dmoral.toasty.Toasty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -13,7 +18,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /**
- * Android 实现：showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty。
+ * Android 实现：
+ * - show / dismiss / showProgress 使用 Android-SpinKit（Circle 样式）
+ * - showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty。
  */
 class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
@@ -23,6 +30,9 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private var defaultStyleIndex: Int = 0
     private var defaultMaskTypeIndex: Int = 0
+
+    private var loadingOverlay: ViewGroup? = null
+    private var ivLoading: SpinKitView? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(binding.binaryMessenger, "toastkit")
@@ -40,6 +50,16 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
     }
 
+    private fun ensureLoadingOverlay(activity: Activity) {
+        if (loadingOverlay != null) return
+        val content = activity.findViewById<ViewGroup>(android.R.id.content)
+        val overlay = LayoutInflater.from(activity)
+            .inflate(R.layout.toastkit_loading_overlay, content, false) as ViewGroup
+        content.addView(overlay, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        loadingOverlay = overlay
+        ivLoading = overlay.findViewById(R.id.ivLoading)
+    }
+
     private fun handleOnUi(call: MethodCall, result: Result, activity: Activity) {
         when (call.method) {
             "init" -> {
@@ -47,6 +67,23 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val args = call.arguments as? Map<String, Any?>
                 defaultStyleIndex = (args?.get("style") as? Number)?.toInt() ?: 0
                 defaultMaskTypeIndex = (args?.get("maskType") as? Number)?.toInt() ?: 0
+                result.success(true)
+            }
+            "show" -> {
+                ensureLoadingOverlay(activity)
+                loadingOverlay?.visibility = View.VISIBLE
+                ivLoading?.visibility = View.VISIBLE
+                result.success(true)
+            }
+            "dismiss" -> {
+                loadingOverlay?.visibility = View.GONE
+                ivLoading?.visibility = View.GONE
+                result.success(true)
+            }
+            "showProgress" -> {
+                ensureLoadingOverlay(activity)
+                loadingOverlay?.visibility = View.VISIBLE
+                ivLoading?.visibility = View.VISIBLE
                 result.success(true)
             }
             "showText" -> {
@@ -99,6 +136,13 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onDetachedFromActivity() {
+        activity?.runOnUiThread {
+            loadingOverlay?.let { overlay ->
+                (overlay.parent as? ViewGroup)?.removeView(overlay)
+            }
+        }
+        loadingOverlay = null
+        ivLoading = null
         activity = null
         mainHandler.removeCallbacksAndMessages(null)
     }
