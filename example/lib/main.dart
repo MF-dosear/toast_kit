@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:toastkit/toastkit.dart';
@@ -14,9 +16,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  StreamSubscription<double>? _progressSubscription;
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _progressSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _startProgressStream() {
+    _progressSubscription?.cancel();
+    const step = 0.05;
+    const interval = Duration(milliseconds: 500);
+    var value = 0.0;
+    _progressSubscription = Stream.periodic(interval, (_) {
+      value = (value + step).clamp(0.0, 1.0);
+      return value;
+    }).take(21).listen(
+      (v) => Toastkit.showProgress(value: v),
+      onDone: () => _progressSubscription = null,
+    );
   }
 
   @override
@@ -63,19 +82,18 @@ class _MyAppState extends State<MyApp> {
             ),
             ListTile(
               title: const Text('Dismiss'),
-              onTap: () async{
+              onTap: () async {
+                _progressSubscription?.cancel();
+                _progressSubscription = null;
                 await Toastkit.dismiss();
                 debugPrint("dismiss");
               },
             ),
             ListTile(
               title: const Text('showProgress'),
+              subtitle: const Text('每 0.5s 更新，进度缓慢 0→1'),
               onTap: () {
-                Toastkit.showProgress(value: 0.5);
-                // 延时2s消失
-                Future.delayed(const Duration(seconds: 2), () {
-                  Toastkit.dismiss();
-                });
+                _startProgressStream();
               },
             ),
             ListTile(
