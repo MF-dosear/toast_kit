@@ -33,7 +33,13 @@ class _MyAppState extends State<MyApp> {
       value = (value + step).clamp(0.0, 1.0);
       return value;
     }).take(21).listen(
-      (v) => Toastkit.showProgress(value: v),
+      (v) {
+        if (v >= 1.0) {
+          Toastkit.dismiss();
+        } else {
+          Toastkit.showProgress(value: v);
+        }
+      },
       onDone: () => _progressSubscription = null,
     );
   }

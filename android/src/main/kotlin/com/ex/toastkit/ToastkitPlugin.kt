@@ -6,8 +6,9 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.ex.toastkit.R
-import com.github.ybq.android.spinkit.SpinKitView
+import com.wang.avi.AVLoadingIndicatorView
 import es.dmoral.toasty.Toasty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -19,7 +20,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 /**
  * Android 实现：
- * - show / dismiss / showProgress 使用 Android-SpinKit（Circle 样式）
+ * - show / dismiss / showProgress 使用 AVLoadingIndicatorView（LineSpinFadeLoaderIndicator 样式）
  * - showText/showSuccessWithText/showWarnWithText/showErrorWithText 使用 Toasty。
  */
 class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -32,7 +33,8 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var defaultMaskTypeIndex: Int = 0
 
     private var loadingOverlay: ViewGroup? = null
-    private var ivLoading: SpinKitView? = null
+    private var ivLoading: AVLoadingIndicatorView? = null
+    private var progressPercentText: TextView? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(binding.binaryMessenger, "toastkit")
@@ -58,6 +60,7 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         content.addView(overlay, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         loadingOverlay = overlay
         ivLoading = overlay.findViewById(R.id.ivLoading)
+        progressPercentText = overlay.findViewById(R.id.progressPercentText)
     }
 
     private fun handleOnUi(call: MethodCall, result: Result, activity: Activity) {
@@ -72,18 +75,30 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             "show" -> {
                 ensureLoadingOverlay(activity)
                 loadingOverlay?.visibility = View.VISIBLE
+                progressPercentText?.visibility = View.GONE
                 ivLoading?.visibility = View.VISIBLE
+                ivLoading?.show()
                 result.success(true)
             }
             "dismiss" -> {
+                ivLoading?.hide()
+                progressPercentText?.visibility = View.GONE
                 loadingOverlay?.visibility = View.GONE
                 ivLoading?.visibility = View.GONE
                 result.success(true)
             }
             "showProgress" -> {
+                val value = when (val arg = call.arguments) {
+                    is Number -> arg.toDouble().coerceIn(0.0, 1.0)
+                    else -> 0.0
+                }
+                val percent = (value * 100).toInt().coerceIn(0, 100)
                 ensureLoadingOverlay(activity)
                 loadingOverlay?.visibility = View.VISIBLE
                 ivLoading?.visibility = View.VISIBLE
+                ivLoading?.show()
+                progressPercentText?.visibility = View.VISIBLE
+                progressPercentText?.text = "$percent%"
                 result.success(true)
             }
             "showText" -> {
@@ -143,6 +158,7 @@ class ToastkitPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
         loadingOverlay = null
         ivLoading = null
+        progressPercentText = null
         activity = null
         mainHandler.removeCallbacksAndMessages(null)
     }
