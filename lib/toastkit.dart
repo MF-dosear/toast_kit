@@ -3,9 +3,9 @@ import 'toastkit_platform_interface.dart';
 export 'toastkit_platform_interface.dart' show ToastMode, ToastMaskMode, ToastAnimationMode;
 
 /// Toast 原生弹窗 API，跨平台（iOS/Android/Web）。
-class Toastkit {
+class Toast {
   /// 初始化 HUD 样式（风格、遮罩、动画），建议在应用启动时调用一次。
-  static void init({
+  static void setStyle({
     ToastMode mode = ToastMode.light,
     ToastMaskMode maskMode = ToastMaskMode.none,
     ToastAnimationMode animationMode = ToastAnimationMode.flat,
@@ -33,15 +33,15 @@ class Toastkit {
     return ToastkitPlatform.instance.showText(text);
   }
 
-  static Future<void> showSuccessWithText(String text) {
+  static Future<void> showSuccess(String text) {
     return ToastkitPlatform.instance.showSuccessWithText(text);
   }
 
-  static Future<void> showWarningWithText(String text) {
+  static Future<void> showInfo(String text) {
     return ToastkitPlatform.instance.showWarnWithText(text);
   }
 
-  static Future<void> showErrorWithText(String text) {
+  static Future<void> showError(String text) {
     return ToastkitPlatform.instance.showErrorWithText(text);
   }
 }

@@ -35,9 +35,9 @@ class _MyAppState extends State<MyApp> {
     }).take(21).listen(
       (v) {
         if (v >= 1.0) {
-          Toastkit.dismiss();
+          Toast.dismiss();
         } else {
-          Toastkit.showProgress(value: v);
+          Toast.showProgress(value: v);
         }
       },
       onDone: () => _progressSubscription = null,
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             IconButton(
               icon: const Icon(Icons.android_rounded),
               onPressed: () {
-                Toastkit.init(
+                Toast.setStyle(
                   mode: ToastMode.dark,
                   maskMode: ToastMaskMode.black,
                   animationMode: ToastAnimationMode.native,
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
             IconButton(
               icon: const Icon(Icons.apple),
               onPressed: () {
-                Toastkit.init(
+                Toast.setStyle(
                   mode: ToastMode.light,
                   maskMode: ToastMaskMode.gradient,
                   animationMode: ToastAnimationMode.flat,
@@ -79,10 +79,10 @@ class _MyAppState extends State<MyApp> {
             ListTile(
               title: const Text('Show'),
               onTap: () {
-                Toastkit.show();
+                Toast.show();
                 // 延时2s消失
                 Future.delayed(const Duration(seconds: 2), () {
-                  Toastkit.dismiss();
+                  Toast.dismiss();
                 });
               },
             ),
@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
               onTap: () async {
                 _progressSubscription?.cancel();
                 _progressSubscription = null;
-                await Toastkit.dismiss();
+                await Toast.dismiss();
                 debugPrint("dismiss");
               },
             ),
@@ -105,26 +105,26 @@ class _MyAppState extends State<MyApp> {
             ListTile(
               title: const Text('Show Text'),
               onTap: () async {
-                await Toastkit.showText("Show Text");
+                await Toast.showText("Show Text");
                 debugPrint("Info toast displayed");
               },
             ),
             ListTile(
-              title: const Text('Show Success With Text'),
+              title: const Text('Show Success'),
               onTap: () {
-                Toastkit.showSuccessWithText("This is a success toast");
+                Toast.showSuccess("This is a success toast");
               },
             ),
             ListTile(
-              title: const Text('Show Warning With Text'),
+              title: const Text('Show Info'),
               onTap: () {
-                Toastkit.showWarningWithText("This is a warning toast");
+                Toast.showInfo("This is a warning toast");
               },
             ),
             ListTile(
-              title: const Text('Show Error With Text'),
+              title: const Text('Show Error'),
               onTap: () {
-                Toastkit.showErrorWithText("This is an error toast");
+                Toast.showError("This is an error toast");
               },
             ),
           ],
